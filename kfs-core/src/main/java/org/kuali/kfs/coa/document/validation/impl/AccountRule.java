@@ -62,6 +62,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import edu.arizona.kfs.sys.UaKeyConstants;
+
 /**
  * Business rule(s) applicable to AccountMaintenance documents.
  */
@@ -183,10 +185,27 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         success &= checkIncomeStreamAccountRule();
         success &= checkUniqueAccountNumber(document);
         success &= checkOpenEncumbrances();
+        success &= checkEncumberanceAndBudgetBalances(document);
 
         // process for IndirectCostRecovery Account
         success &= super.processCustomRouteDocumentBusinessRules(document);
 
+        return success;
+    }
+    
+    /**
+     * This method checks with the Balance Service to determine if the account
+     * has an Encumberance or Budget balance.
+     * 
+     * @param document
+     * @return false if the balances are greater than zero.
+     */
+    private boolean checkEncumberanceAndBudgetBalances(MaintenanceDocument document) {
+        boolean success = !balanceService.hasEncumbrancesOrBaseBudgets(newAccount);
+        if (!success) {
+            putFieldError(KFSPropertyConstants.CLOSED, UaKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_NO_BUDGET_ENCUMBRANCE_BALANCES);
+            success &= false;
+        }
         return success;
     }
 

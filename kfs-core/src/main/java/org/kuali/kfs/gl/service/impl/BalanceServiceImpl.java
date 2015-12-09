@@ -437,7 +437,8 @@ public class BalanceServiceImpl implements BalanceService {
         encumbranceBaseBudgetBalanceTypeCodes = Arrays.asList( options.getExtrnlEncumFinBalanceTypCd(), // EX
                 options.getIntrnlEncumFinBalanceTypCd(), // IE
                 options.getPreencumbranceFinBalTypeCd(), // PE
-                options.getBaseBudgetFinancialBalanceTypeCd() // BB
+                options.getBaseBudgetFinancialBalanceTypeCd(), // BB
+                options.getBudgetCheckingBalanceTypeCd() //CB
         );
     }
 
