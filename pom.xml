@@ -164,6 +164,9 @@
             <packagingExcludes>
               WEB-INF/lib/rice-kim-impl-${rice.version}.jar,
               WEB-INF/lib/rice-impl-${rice.version}.jar
+              WEB-INF/lib/rice-kim-api-${rice.version}.jar
+              WEB-INF/lib/rice-krad-app-framework-${rice.version}.jar
+              WEB-INF/lib/rice-kim-api-${rice.version}.jar
              </packagingExcludes>
           </configuration>
         </plugin>
@@ -500,6 +503,30 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-kim-impl</artifactId>
+      <version>${project.version}</version>
+      <classifier>ua-ksd</classifier>
+      <exclusions>
+        <exclusion>
+          <groupId>xapool</groupId>
+          <artifactId>xapool</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-kim-api</artifactId>
+      <version>${project.version}</version>
+      <classifier>ua-ksd</classifier>
+      <exclusions>
+        <exclusion>
+          <groupId>xapool</groupId>
+          <artifactId>xapool</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-krad-app-framework</artifactId>
       <version>${project.version}</version>
       <classifier>ua-ksd</classifier>
       <exclusions>
