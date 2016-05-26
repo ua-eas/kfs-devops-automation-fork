@@ -8,7 +8,220 @@
     <bean id="GeneralErrorCorrectionDocument" parent="GeneralErrorCorrectionDocument-parentBean">
         <property name="documentPresentationControllerClass" value="edu.arizona.kfs.fp.document.authorization.GeneralErrorCorrectionDocumentPresentationController"/>
     </bean>
-  
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingLineGroup" parent="GeneralErrorCorrectionDocument-sourceAccountingLineGroup-parentBean"> 
+        <property name="accountingLineGroupActions" ref="GeneralErrorCorrectionDocument-sourceGroupActions" />
+        <property name="accountingLineView" ref="GeneralErrorCorrectionDocument-sourceAccountingLineView"/>
+        <property name="groupLabel" value="Reversing"/>
+        <property name="importingAllowed" value="false" />
+    </bean>
+
+    <bean id="GeneralErrorCorrectionDocument-sourceGroupActions" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <bean parent="AccountingLineView-action" p:actionMethod="copyAllAccountingLines" p:actionLabel="copy all" p:imageName="tinybutton-copyall.gif" />
+                <bean parent="AccountingLineView-action" p:actionMethod="deleteAllSourceAccountingLines" p:actionLabel="delete all" p:imageName="tinybutton-deleteall.gif" />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="GeneralErrorCorrectionDocument-sourceAccountingLineView" parent="GeneralErrorCorrectionDocument-accountingLineView-parent">
+        <property name="elements">
+            <list>
+                <bean parent="AccountingLineView-sequenceNumber" />
+                <bean parent="AccountingLineView-lines">
+                    <property name="lines">
+                        <list>
+                            <ref bean="gecSourceAccountingInformationLine1" />
+                            <ref bean="gecSourceAccountingInformationLine2" />
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="gecSourceAccountingField-amount" />
+                <ref bean="gecSourceAccountingActions" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="gecSourceAccountingInformationLine1" parent="AccountingLineView-line">
+        <property name="elementName" value="accountingInformation" />
+        <property name="fields">
+            <list>
+                <ref bean="gecSourceAccountingField-chartOfAccountsCode"     />
+                <ref bean="gecSourceAccountingField-accountNumber"           />
+                <ref bean="gecSourceAccountingField-subAccountNumber"        />
+                <ref bean="gecSourceAccountingField-financialObjectCode"     />
+                <ref bean="gecSourceAccountingField-financialSubObjectCode"  />
+                <ref bean="gecSourceAccountingField-projectCode"             />
+                <ref bean="gecSourceAccountingField-organizationReferenceId" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="gecSourceAccountingInformationLine2" parent="AccountingLineView-line">
+        <property name="elementName" value="lineDescription" />
+        <property name="fields">
+            <list>
+                <ref bean="gecSourceAccountingField-referenceOriginCode"                 />
+                <ref bean="gecSourceAccountingField-referenceNumber"                     />
+                <ref bean="gecSourceAccountingField-financialDocumentLineDescription"    />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="gecSourceAccountingField-chartOfAccountsCode" parent="AccountingLineView-field">
+        <property name="name"                       value="chartOfAccountsCode"                 />
+        <property name="required"                   value="true"                                />
+        <property name="webUILeaveFieldFunction"    value="loadChartInfo"                       />
+        <property name="dynamicLabelProperty"       value="chart.finChartOfAccountDescription"  />
+        <property name="useShortLabel"              value="true"                                />
+        <property name="unconditionallyReadOnly"    value="true"                                />
+    </bean>
+
+    <bean id="gecSourceAccountingField-accountNumber" parent="AccountingLineView-field">
+        <property name="name"                       value="accountNumber"                       />
+        <property name="required"                   value="true"                                />
+        <property name="webUILeaveFieldFunction"    value="loadAccountInfo"                     />
+        <property name="dynamicLabelProperty"       value="account.accountName"                 />
+        <property name="useShortLabel"              value="true"                                />
+        <property name="unconditionallyReadOnly"    value="true"                                />
+    </bean>
+
+    <bean id="gecSourceAccountingField-subAccountNumber" parent="AccountingLineView-field">
+        <property name="name"                       value="subAccountNumber"                    />
+        <property name="required"                   value="true"                                />
+        <property name="webUILeaveFieldFunction"    value="loadSubAccountInfo"                  />
+        <property name="dynamicLabelProperty"       value="subAccount.subAccountName"           />
+        <property name="useShortLabel"              value="true"                                />
+        <property name="unconditionallyReadOnly"    value="true"                                />
+    </bean>
+
+    <bean id="gecSourceAccountingField-financialObjectCode" parent="AccountingLineView-field">
+        <property name="name"                               value="financialObjectCode"                 />
+        <property name="required"                           value="true"                                />
+        <property name="unconditionallyReadOnly"            value="true"                                />
+        <property name="dynamicNameLabelGeneratorBeanName"  value="objectCodeDynamicNameLabelGenerator" />
+        <property name="useShortLabel"                      value="true"                                />
+        <property name="overrideFields">
+            <list>
+                <bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="gecSourceAccountingField-financialSubObjectCode" parent="AccountingLineView-field">
+        <property name="name"                               value="financialSubObjectCode"                  />
+        <property name="unconditionallyReadOnly"            value="true"                                    />
+        <property name="dynamicNameLabelGeneratorBeanName"  value="subObjectCodeDynamicNameLabelGenerator"  />
+        <property name="useShortLabel"                      value="true"                                    />
+    </bean>
+
+    <bean id="gecSourceAccountingField-projectCode" parent="AccountingLineView-field">
+        <property name="name"                       value="projectCode"                 />
+        <property name="webUILeaveFieldFunction"    value="loadProjectInfo"             />
+        <property name="dynamicLabelProperty"       value="project.name"                />
+        <property name="useShortLabel"              value="true"                        />
+        <property name="unconditionallyReadOnly"    value="true"                        />
+    </bean>
+
+    <bean id="gecSourceAccountingField-organizationReferenceId" parent="AccountingLineView-field">
+        <property name="name"                       value="organizationReferenceId"     />
+        <property name="useShortLabel"              value="true"                        />
+        <property name="unconditionallyReadOnly"    value="true"                        />
+    </bean>
+
+    <bean id="gecSourceAccountingField-referenceOriginCode" parent="AccountingLineView-field">
+        <property name="name"                       value="referenceOriginCode"         />
+        <property name="unconditionallyReadOnly"    value="true"                        />
+    </bean>
+
+    <bean id="gecSourceAccountingField-referenceNumber" parent="AccountingLineView-field">
+        <property name="name"                       value="referenceNumber"         />
+        <property name="required"                   value="true"                    />
+        <property name="unconditionallyReadOnly"    value="true"                    />
+    </bean>
+
+    <bean id="gecSourceAccountingField-financialDocumentLineDescription" parent="AccountingLineView-field">
+        <property name="name"                       value="financialDocumentLineDescription"    />
+        <property name="overrideColSpan"            value="2"                                   />
+        <property name="unconditionallyReadOnly"    value="true"                                />
+    </bean>
+
+    <bean id="gecSourceAccountingField-amount" parent="AccountingLineView-field">
+        <property name="name"                       value="amount"      />
+        <property name="required"                   value="true"        />
+        <property name="unconditionallyReadOnly"    value="true"        />
+    </bean>
+
+    <bean id="gecSourceAccountingActions" parent="AccountingLineView-actions">
+    </bean>
+
+
+
+
+    <bean id="GeneralErrorCorrectionDocument-accountingLineView" parent="GeneralErrorCorrectionDocument-accountingLineView-parent"/>
+    <bean id="GeneralErrorCorrectionDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+        <property name="elements">
+          <list>
+              <bean parent="AccountingLineView-sequenceNumber"/>
+              <bean parent="AccountingLineView-lines">
+                  <property name="lines">
+                      <list>
+                          <ref bean="accountingInformation"/>
+                          <bean parent="AccountingLineView-line">
+                              <property name="elementName" value="lineDescription"/>
+                              <property name="fields">
+                                  <list>
+                                      <bean parent="AccountingLineView-field" p:name="referenceOriginCode" p:required="true"/>
+                                      <bean parent="AccountingLineView-field" p:name="referenceNumber" p:required="true"/>
+                                      <bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2"/>
+                                  </list>
+                              </property>
+                          </bean>
+                          <ref bean="salesTaxInformation" />          
+                      </list>
+                  </property>
+              </bean>
+              <bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+              <bean parent="AccountingLineView-actions"/>
+          </list>
+      </property>
+    </bean>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <bean id="GeneralErrorCorrectionDocument-targetAccountingLineGroup" parent="GeneralErrorCorrectionDocument-targetAccountingLineGroup-parentBean">
+        <property name="groupLabel" value="Correcting"/>
+    </bean>
+
+
+
   <!-- workflow attributes for routing -->
   <bean id="GeneralErrorCorrectionDocument-workflowAttributes" parent="GeneralErrorCorrectionDocument-workflowAttributes-parentBean">
     <property name="routingTypeDefinitions">
