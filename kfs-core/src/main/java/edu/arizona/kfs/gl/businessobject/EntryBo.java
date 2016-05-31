@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -15,13 +16,14 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import edu.arizona.kfs.sys.KFSPropertyConstants;
 
 /**
- * This class is the UA Modification to the Entry BO class.
+ * This class was created to represent the Entry (GL_ENTRY_T) table in the database without any object references,
+ * to speed retrieval of the data for lookups, and to provide additional dynamically generated fields for use with the GEC Lookup.
  *
  * @author Adam Kost <kosta@email.arizona.edu> with some code adapted from UCI
  */
 
 @SuppressWarnings("deprecation")
-public class Entry extends org.kuali.kfs.gl.businessobject.Entry {
+public class EntryBo extends Entry {
 
     private static final long serialVersionUID = 7915615641174612210L;
 

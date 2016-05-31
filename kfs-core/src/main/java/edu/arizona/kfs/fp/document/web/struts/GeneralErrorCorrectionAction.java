@@ -23,7 +23,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-import edu.arizona.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.businessobject.Entry;
+import edu.arizona.kfs.gl.businessobject.EntryBo;
 import edu.arizona.kfs.sys.KFSConstants;
 
 /**
@@ -195,7 +196,7 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
                 continue;
             }
 
-            Entry result = Entry.getEntry(selectedEntryId);
+            Entry result = EntryBo.getEntry(selectedEntryId);
             if (result != null) {
                 retvals.add(result);
             }

@@ -37,7 +37,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 import edu.arizona.kfs.fp.document.validation.impl.GeneralErrorCorrectionDocumentRuleConstants;
-import edu.arizona.kfs.gl.businessobject.Entry;
+import edu.arizona.kfs.gl.businessobject.EntryBo;
 import edu.arizona.kfs.sys.KFSPropertyConstants;
 
 /**
@@ -94,18 +94,18 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected Collection<Entry> performMultipleValueLookup(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage, boolean bounded) {
-        Collection<Entry> c = super.performMultipleValueLookup(multipleValueLookupForm, resultTable, maxRowsPerPage, bounded);
+    protected Collection<EntryBo> performMultipleValueLookup(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage, boolean bounded) {
+        Collection<EntryBo> c = super.performMultipleValueLookup(multipleValueLookupForm, resultTable, maxRowsPerPage, bounded);
         if (c == null || c.isEmpty()) {
             LOG.debug("No results found.");
-            return new ArrayList<Entry>();
+            return new ArrayList<EntryBo>();
         }
 
-        List<Entry> entries = new ArrayList<Entry>(c);
-        List<Entry> entriesToRemove = new ArrayList<Entry>();
-        List<Entry> entriesToDisable = new ArrayList<Entry>();
+        List<EntryBo> entries = new ArrayList<EntryBo>(c);
+        List<EntryBo> entriesToRemove = new ArrayList<EntryBo>();
+        List<EntryBo> entriesToDisable = new ArrayList<EntryBo>();
 
-        for (Entry e : entries) {
+        for (EntryBo e : entries) {
             boolean removeEntry = removeEntry(e);
             boolean disableEntry = disableEntry(e);
             if (removeEntry) {
@@ -125,9 +125,9 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         return entries;
     }
 
-    private Map<String, String> generateEntryIdMap(List<Entry> entries) {
+    private Map<String, String> generateEntryIdMap(List<EntryBo> entries) {
         Map<String, String> retval = new HashMap<String, String>();
-        for (Entry entry : entries) {
+        for (EntryBo entry : entries) {
             retval.put(entry.getEntryId(), entry.getEntryId());
         }
         return retval;
@@ -165,7 +165,7 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
      * @param entry
      * @return
      */
-    private boolean removeEntry(Entry entry) {
+    private boolean removeEntry(EntryBo entry) {
         LOG.debug("Determining if entry should be removed: " + entry.toString());
         ObjectCode code = getObjectCodeService().getByPrimaryId(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
 
@@ -201,7 +201,7 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         return false;
     }
 
-    private boolean isOffsetAccountEntry(List<Bank> bankAccountList, Entry entry) {
+    private boolean isOffsetAccountEntry(List<Bank> bankAccountList, EntryBo entry) {
         for (Bank bankAccount : bankAccountList) {
             if (bankAccount.getBankAccountNumber().equals(entry.getAccountNumber())) {
                 return true;
@@ -216,7 +216,7 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
      * @param entry
      * @return
      */
-    private boolean disableEntry(Entry entry) {
+    private boolean disableEntry(EntryBo entry) {
         LOG.debug("Determining if entry should be disabled: " + entry.toString());
         String gecDocumentNumber = entry.getGecDocumentNumber();
         if (StringUtils.isBlank(gecDocumentNumber)) {
@@ -253,8 +253,8 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         return docHeader.getDocRouteStatus();
     }
 
-    private void removeRecords(List<Entry> entriesToRemove, List<Entry> entries, List<ResultRow> resultTable, MultipleValueLookupForm multipleValueLookupForm) {
-        for (Entry entryToRemove : entriesToRemove) {
+    private void removeRecords(List<EntryBo> entriesToRemove, List<EntryBo> entries, List<ResultRow> resultTable, MultipleValueLookupForm multipleValueLookupForm) {
+        for (EntryBo entryToRemove : entriesToRemove) {
             entries.remove(entryToRemove);
             Iterator<ResultRow> iter = resultTable.iterator();
             while (iter.hasNext()) {
@@ -267,12 +267,12 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         }
     }
 
-    private void disableRecords(List<Entry> entriesToDisable, List<ResultRow> resultTable, MultipleValueLookupForm multipleValueLookupForm) {
+    private void disableRecords(List<EntryBo> entriesToDisable, List<ResultRow> resultTable, MultipleValueLookupForm multipleValueLookupForm) {
         if (entriesToDisable.isEmpty()) {
             LOG.debug("entriesToRemove is Empty");
             return;
         }
-        for (Entry entryToDisable : entriesToDisable) {
+        for (EntryBo entryToDisable : entriesToDisable) {
             for (ResultRow row : resultTable) {
                 boolean isSameEntry = compareEntryToRow(entryToDisable, row);
                 if (isSameEntry) {
@@ -289,7 +289,7 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
         }
     }
 
-    private boolean compareEntryToRow(Entry entry, ResultRow row) {
+    private boolean compareEntryToRow(EntryBo entry, ResultRow row) {
         List<Column> columnList = row.getColumns();
         boolean isSameEntry = true;
 
