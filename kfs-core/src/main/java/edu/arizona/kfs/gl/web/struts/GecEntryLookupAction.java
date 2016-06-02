@@ -118,6 +118,7 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
 
         removeRecords(entriesToRemove, entries, resultTable, multipleValueLookupForm);
         disableRecords(entriesToDisable, resultTable, multipleValueLookupForm);
+//        addObjectLinksToRecords(resultTable);
         multipleValueLookupForm.jumpToFirstPage(resultTable.size(), maxRowsPerPage);
 
         Map<String, String> displayedEntryIds = generateEntryIdMap(entries);
@@ -278,9 +279,10 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
                 if (isSameEntry) {
                     row.setReturnUrl(StringUtils.EMPTY);
                     row.setRowReturnable(false);
+//                    setFieldObject(row, KFSPropertyConstants.GEC_DOCUMENT_NUMBER, entryToDisable.getGecDocumentNumber());
                     int col = getColumnIndexByProperty(row.getColumns(), KFSPropertyConstants.GEC_DOCUMENT_NUMBER);
                     row.getColumns().get(col).setPropertyValue(entryToDisable.getGecDocumentNumber());
-                    row.getColumns().get(col).setPropertyURL(KewApiConstants.Namespaces.MODULE_NAME + KRADConstants.DOCHANDLER_DO_URL + entryToDisable.getGecDocumentNumber() + KRADConstants.DOCHANDLER_URL_CHUNK);
+//                    row.getColumns().get(col).setPropertyURL(KewApiConstants.Namespaces.MODULE_NAME + KRADConstants.DOCHANDLER_DO_URL + entryToDisable.getGecDocumentNumber() + KRADConstants.DOCHANDLER_URL_CHUNK);
                     LOG.debug("gecDocumentNumber=" + entryToDisable.getGecDocumentNumber());
                     HtmlData columnAnchor = new HtmlData.AnchorHtmlData(KewApiConstants.Namespaces.MODULE_NAME + KRADConstants.DOCHANDLER_DO_URL + entryToDisable.getGecDocumentNumber() + KRADConstants.DOCHANDLER_URL_CHUNK, KRADConstants.EMPTY_STRING);
                     row.getColumns().get(col).setColumnAnchor(columnAnchor);
@@ -288,6 +290,94 @@ public class GecEntryLookupAction extends KualiMultipleValueLookupAction {
             }
         }
     }
+
+//    private void addObjectLinksToRecords(List<ResultRow> resultTable) {
+//        for (ResultRow row : resultTable) {
+//            setFieldObject(row, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, null);
+//            setFieldObject(row, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, null);
+//            setFieldObject(row, KFSPropertyConstants.ACCOUNT_NUMBER, null);
+//            setFieldObject(row, KFSPropertyConstants.SUB_ACCOUNT_NUMBER, null);
+//            setFieldObject(row, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, null);
+//            setFieldObject(row, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, null);
+//            setFieldObject(row, KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, null);
+//            setFieldObject(row, KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, null);
+//            setFieldObject(row, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, null);
+//            setFieldObject(row, KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, null);
+//            setFieldObject(row, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, null);
+//            setFieldObject(row, KFSPropertyConstants.DOCUMENT_NUMBER, null);
+//            setFieldObject(row, KFSPropertyConstants.REFERENCE_FINANCIAL_DOCUMENT_TYPE_CODE, null);
+//            setFieldObject(row, KFSPropertyConstants.REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE, null);
+//        }
+//    }
+//
+//    private void setFieldObject(ResultRow row, String field, String value) {
+//        int col = getColumnIndexByProperty(row.getColumns(), field);
+//        if (col != 1) {
+//            Column column = row.getColumns().get(col);
+//            if (value != null){
+//                column.setPropertyValue(value);
+//            }
+//            String columnValue = column.getPropertyValue();
+//            if (!StringUtils.equalsIgnoreCase(PdpPropertyConstants.CustomerProfile.CUSTOMER_DEFAULT_SUB_ACCOUNT_NUMBER, columnValue) && !StringUtils.equalsIgnoreCase(PdpPropertyConstants.CustomerProfile.CUSTOMER_DEFAULT_SUB_OBJECT_CODE, columnValue)) {
+//                String title = "show Inquiry for " + field + "=" + columnValue;
+//                String inquiryURL = getInquiryURL(field, columnValue);
+//                HtmlData columnAnchor = new HtmlData.AnchorHtmlData(inquiryURL, title);
+//                column.setColumnAnchor(columnAnchor);
+//            }
+//        }
+//    }
+//
+//    private String getInquiryURL(String field, String value) {
+//        String url = KFSConstants.EMPTY_STRING;
+//        switch (field) {
+//            case KFSPropertyConstants.GEC_DOCUMENT_NUMBER:
+//                url = KewApiConstants.Namespaces.MODULE_NAME + KRADConstants.DOCHANDLER_DO_URL + value + KRADConstants.DOCHANDLER_URL_CHUNK;
+//                return url;
+//            case KFSPropertyConstants.DOCUMENT_NUMBER:
+//                url = KewApiConstants.Namespaces.MODULE_NAME + KRADConstants.DOCHANDLER_DO_URL + value + KRADConstants.DOCHANDLER_URL_CHUNK;
+//                return url;
+//            case KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "businessObjectClassName=org.kuali.kfs.sys.businessobject.SystemOptions&universityFiscalYear=" + value;
+//                return url;
+//            case KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "businessObjectClassName=org.kuali.kfs.coa.businessobject.Chart&chartOfAccountsCode=" + value;
+//                return url;
+//            case KFSPropertyConstants.ACCOUNT_NUMBER:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "businessObjectClassName=org.kuali.kfs.coa.businessobject.Account&chartOfAccountsCode=UA&accountNumber=" + value;
+//                return url;
+//            case KFSPropertyConstants.SUB_ACCOUNT_NUMBER:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "";
+//                return url;
+//            case KFSPropertyConstants.FINANCIAL_OBJECT_CODE:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "businessObjectClassName=org.kuali.kfs.coa.businessobject.ObjectCode&chartOfAccountsCode=UA&universityFiscalYear=2016&financialObjectCode=" + value;
+//                return url;
+//            case KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "";
+//                return url;
+//            case KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "businessObjectClassName=org.kuali.kfs.coa.businessobject.BalanceType&code=" + value;
+//                return url;
+//            case KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "businessObjectClassName=org.kuali.kfs.coa.businessobject.ObjectType&code" + value;
+//                return url;
+//            case KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "businessObjectClassName=org.kuali.kfs.coa.businessobject.AccountingPeriod&universityFiscalYear=2016&universityFiscalPeriodCode=" + value;
+//                return url;
+//            case KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "businessObjectClassName=org.kuali.rice.kew.doctype.bo.DocumentTypeEBO&documentTypeId=4975623&docFormKey=88888888";
+//                return url;
+//            case KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "businessObjectClassName=org.kuali.kfs.sys.businessobject.OriginationCode&financialSystemOriginationCode=01";
+//                return url;
+//            case KFSPropertyConstants.REFERENCE_FINANCIAL_DOCUMENT_TYPE_CODE:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "businessObjectClassName=org.kuali.rice.kew.doctype.bo.DocumentTypeEBO&documentTypeId=4975476&docFormKey=88888888";
+//                return url;
+//            case KFSPropertyConstants.REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE:
+//                url = KFSConstants.INQUIRY_ACTION + KFSConstants.METHOD_TO_CALL_START + "businessObjectClassName=org.kuali.kfs.sys.businessobject.OriginationCode&financialSystemOriginationCode=01";
+//                return url;
+//        }
+//        return url;
+//    }
 
     private boolean compareEntryToRow(EntryBo entry, ResultRow row) {
         List<Column> columnList = row.getColumns();

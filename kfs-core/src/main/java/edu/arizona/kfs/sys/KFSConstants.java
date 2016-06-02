@@ -6,6 +6,7 @@ public class KFSConstants extends org.kuali.kfs.sys.KFSConstants {
     public static final String DUPLICATE_INVOICE_QUESTION_ID = "DVDuplicateInvoice";
 
     public static final String GL_ENTRY_IMPORTING = "glEntryImporting";
+    public static final String METHOD_TO_CALL_START = "?methodToCall=start&";
     public static final String NULL_STRING = "null";
     public static final String PATH_SEPERATOR = "/";
 

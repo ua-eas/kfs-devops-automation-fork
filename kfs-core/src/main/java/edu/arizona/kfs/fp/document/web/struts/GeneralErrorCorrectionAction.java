@@ -76,7 +76,8 @@ public class GeneralErrorCorrectionAction extends org.kuali.kfs.fp.document.web.
         // when we return from the lookup, our next request's method to call is going to be refresh
         financialDocumentForm.registerEditableProperty(KRADConstants.DISPATCH_REQUEST_PARAMETER);
 
-        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+//        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        String basePath = "https://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
         // parse out business object class name for lookup
         String boClassName = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, KFSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
