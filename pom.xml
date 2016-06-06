@@ -211,7 +211,7 @@
 			</flowInitContext>
 			<allowSnapshots>true</allowSnapshots>
 			<defaultOriginUrl>scm:git:git@github.com:ua-eas/kfs-devops-automation-fork.git</defaultOriginUrl>
-			<enableSshAgent>false</enableSshAgent>
+			<enableSshAgent>true</enableSshAgent>
 		</configuration>
 	</plugin>
       <plugin>
