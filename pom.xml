@@ -185,6 +185,36 @@
       </plugins>
     </pluginManagement>
     <plugins>
+	<plugin>
+		<groupId>external.atlassian.jgitflow</groupId>
+		<artifactId>jgitflow-maven-plugin</artifactId>
+		<version>1.0-m5.1</version>
+		<configuration>
+			<!-- Keep your maven submodules at the same version as the parent POM -->
+			<autoVersionSubmodules>true</autoVersionSubmodules>
+			<!-- Pusing in-development features to origin allows all devs to see what 
+				each other are working on -->
+			<pushFeatures>true</pushFeatures>
+			<!-- This allows the CI server (e.g. Jenkins) to automatically push new 
+				releases to origin; you can then either manually deploy them or, if you are 
+				doing Continuous Deployments, auto-deploy them to prod -->
+			<pushReleases>true</pushReleases>
+			<!-- Hot Fixes should be pushed to origin as well so that any dev can 
+				pick them up -->
+			<pushHotfixes>true</pushHotfixes>
+			<!-- Prevents deployments from dev workstations so that they can be done 
+				by a CI server -->
+			<noDeploy>true</noDeploy>
+			<flowInitContext>
+				<developBranchName>ua-development</developBranchName>
+				<!-- <releaseBranchPrefix>ua-release</releaseBranchPrefix>
+				<versionTagPrefix>ua-release</versionTagPrefix> -->
+			</flowInitContext>
+			<allowSnapshots>true</allowSnapshots>
+			<defaultOriginUrl>scm:git:git@github.com:quikkian-ua-devops/kfs.git</defaultOriginUrl>
+			<enableSshAgent>true</enableSshAgent>
+		</configuration>
+	</plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
