@@ -206,6 +206,7 @@
 			<noDeploy>true</noDeploy>
 			<flowInitContext>
 				<developBranchName>ua-development</developBranchName>
+				<masterBranchName>ua-master</masterBranchName>
 				<!-- <releaseBranchPrefix>ua-release</releaseBranchPrefix>
 				<versionTagPrefix>ua-release</versionTagPrefix> -->
 			</flowInitContext>
