@@ -3,7 +3,7 @@
   <parent>
     <artifactId>kfs</artifactId>
     <groupId>org.kuali.kfs</groupId>
-    <version>devops-automation-release36-SNAPSHOT</version>
+    <version>devops-automation-release35</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
