@@ -18,6 +18,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses />.
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<!-- adding a comment -->
   <modelVersion>4.0.0</modelVersion>
   <modules>
     <module>kfs-core</module>
@@ -39,7 +40,7 @@
   </parent>
   <groupId>org.kuali.kfs</groupId>
   <artifactId>kfs</artifactId>
-  <version>ua-devops-automation-release42</version>
+  <version>ua-devops-automation-release43</version>
   <name>Kuali Financial System</name>
   <description>Kuali Financials</description>
   <inceptionYear>2004</inceptionYear>
@@ -211,8 +212,6 @@
 				<versionTagPrefix>ua-release</versionTagPrefix> -->
 			</flowInitContext>
 			<allowSnapshots>true</allowSnapshots>
-			<defaultOriginUrl>scm:git:git@github.com:ua-eas/kfs-devops-automation-fork.git</defaultOriginUrl>
-			<enableSshAgent>true</enableSshAgent>
 		</configuration>
 	</plugin>
       <plugin>
